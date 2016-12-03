@@ -64,13 +64,10 @@ def rnn_forward(x, h0, Wx, Wh, b):
   
   Returns a tuple of:
   - h: Hidden states for the entire timeseries, of shape (N, T, H).
-  """
-  N, T, D = x.shape
-  H = h0.shape[1]
-  h = np.zeros([N, 0, H])
-  for t in xrange(T):
-    h_step = rnn_step_forward(x[:, t, :], h0 if t == 0 else h[:, t-1, :], Wx, Wh, b).reshape(N, 1, H)
-    h = np.append(h, h_step, axis=1)
+  """ 
+  # TODO:
+
+  # END TODO
   return h
 
 
@@ -100,17 +97,7 @@ def lstm_step_forward(x, prev_h, prev_c, Wx, Wh, b):
   # TODO: Implement the forward pass for a single timestep of an LSTM.        #
   # You may want to use the numerically stable sigmoid implementation above.  #
   #############################################################################
-  N, H = prev_c.shape
-  # 1. activation vector
-  a = np.dot(x, Wx) + np.dot(prev_h, Wh) + b
-  # 2. gate fuctions
-  i = sigmoid(a[:, 0:H])
-  f = sigmoid(a[:, H:2*H])
-  o = sigmoid(a[:, 2*H:3*H])
-  g = np.tanh(a[:, 3*H:4*H])
-  # 3. next cell state
-  next_c = f * prev_c + i * g
-  next_h = o * np.tanh(next_c)
+
   ##############################################################################
   #                               END OF YOUR CODE                             #
   ##############################################################################
@@ -146,17 +133,7 @@ def lstm_forward(x, h0, Wx, Wh, b):
   # TODO: Implement the forward pass for an LSTM over an entire timeseries.   #
   # You should use the lstm_step_forward function that you just defined.      #
   #############################################################################
-  N, T, D = x.shape
-  _, H = h0.shape
-  c = np.zeros([N, 0, H])
-  h = np.zeros([N, 0, H])
-  for t in xrange(T):
-    h_step, c_step = lstm_step_forward(
-      x[:, t, :], h[:, t-1, :] if t > 0 else h0, c[:, t-1, :] if t > 0 else np.zeros((N, H)), Wx, Wh, b)
-    h_step = h_step.reshape(N, 1, H)
-    c_step = c_step.reshape(N, 1, H)
-    h = np.append(h, h_step, axis=1)
-    c = np.append(c, c_step, axis=1)
+
   ##############################################################################
   #                               END OF YOUR CODE                             #
   ##############################################################################
@@ -185,7 +162,7 @@ def word_embedding_forward(x, W):
   #                                                                            #
   # HINT: This should be very simple.                                          #
   ##############################################################################
-  out = W[x]  # W(a, b, c) a, b ,c wrt 1, 2, 3 dim
+
   ##############################################################################
   #                               END OF YOUR CODE                             #
   ##############################################################################
@@ -242,9 +219,9 @@ def temporal_affine_forward(x, w, b):
       """
       # Note that out = x.dot(w) + b works, but need tensordot implementation
       # which is not implemented in this version
-  N, T, D = x.shape
-  M = b.shape[0]
-  out = x.reshape(N * T, D).dot(w).reshape(N, T, M) + b
+  # TODO:      
+
+  # END TODO
   return out
 
 
@@ -272,14 +249,8 @@ def temporal_softmax_loss(x, y, mask, verbose=False):
   - loss: Scalar giving loss
   - dx: Gradient of loss with respect to scores x.
   """
-  N, T, V = x.shape
+  # TODO:
+
   
-  x_flat = x.reshape(N * T, V)
-  y_flat = y.reshape(N * T)
-  mask_flat = mask.reshape(N * T)
-  
-  probs = np.exp(x_flat - np.max(x_flat, axis=1, keepdims=True))
-  probs = probs / np.sum(probs, axis=1, keepdims=True)
-  loss = -np.sum(mask_flat * np.log(probs[np.arange(N * T), y_flat])) / N
-  
+  # END TODO
   return loss

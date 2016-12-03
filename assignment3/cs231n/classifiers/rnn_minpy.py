@@ -145,7 +145,7 @@ class CaptioningRNN(object):
     W_vocab, b_vocab = self.params['W_vocab'], self.params['b_vocab']
     
     loss, grads = 0.0, {}
-
+    
     grad_function = grad_and_loss(self.rnnNet, xrange(8))
     grad_array, loss = grad_function(W_proj, b_proj, W_embed, Wx, Wh, b, W_vocab, b_vocab,
                     features, captions_in, captions_out, mask)
@@ -154,16 +154,17 @@ class CaptioningRNN(object):
     # In the backward pass you will need to compute the gradient of the loss   #
     # with respect to all model parameters. Use the loss and grads variables   #
     # defined above to store loss and gradients; grads[k] should give the      #
-    # gradients for self.params[k].                                            #
-    grads['W_proj'] = grad_array[0]
-    grads['b_proj'] = grad_array[1]
-    grads['W_embed'] = grad_array[2]
-    grads['Wx'] = grad_array[3]
-    grads['Wh'] = grad_array[4]
-    grads['b'] = grad_array[5]
-    grads['W_vocab'] = grad_array[6]
-    grads['b_vocab'] = grad_array[7]
-
+    # gradients for self.params[k].  
+    # TODO: set grad_array to grads dictionary
+    grads['W_proj'] = 
+    grads['b_proj'] = 
+    grads['W_embed'] = 
+    grads['Wx'] = 
+    grads['Wh'] = 
+    grads['b'] = 
+    grads['W_vocab'] = 
+    grads['b_vocab'] = 
+    # END TO
     return loss, grads
 
 
@@ -207,10 +208,12 @@ class CaptioningRNN(object):
       c = np.zeros(h.shape)
 
     embed = self._start * np.ones(N, dtype=int)
-
+    
+    
+    # TODO: Get captions
     for t in xrange(max_length):
       # (1) Embed the previous word using the learned word embeddings
-      embed = word_embedding_forward(embed, W_embed)
+
       # (2) Make an RNN / LSTM step using the previous hidden state and the
       #      embedded current word to get the next hidden state.
       if self.cell_type == 'rnn':
@@ -219,14 +222,13 @@ class CaptioningRNN(object):
         h, c = lstm_step_forward(embed, h, c, Wx, Wh, b)
       # (3) Apply the learned affine transformation to the next hidden state to
       #     get scores for all words in the vocabulary
-      out = affine_forward(h, W_vocab, b_vocab)
+   
 
       # (4) Select the word with the highest score as the next word, writing it
       #     to the appropriate slot in the captions variable  
-      #x = out.argmax(axis=1)
-      embed = np.argmax(out, axis=1)
 
-      captions[:, t] = embed
+
+    # END TODO
     ############################################################################
     #                             END OF YOUR CODE                             #
     ############################################################################
